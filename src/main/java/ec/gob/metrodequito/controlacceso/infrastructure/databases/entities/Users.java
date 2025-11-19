@@ -1,6 +1,6 @@
 package ec.gob.metrodequito.controlacceso.infrastructure.databases.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import ec.gob.metrodequito.tarjetaoperacional.infraestructure.persistence.entities.CardAssignmentHistoryEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -32,6 +32,9 @@ public class Users {
     @OneToMany(mappedBy = "user")
     //@JsonIgnore
     private List<UserRol>  roles;
+
+    @OneToMany(mappedBy = "activatedBy")
+    private List<CardAssignmentHistoryEntity> activations;
 
     public Users(String id, String username, Boolean isActive, Boolean isLooked,
                  LocalDateTime lastLoginAt, Integer failedLoginAttemps, LocalDateTime passwordUpdatedAt) {

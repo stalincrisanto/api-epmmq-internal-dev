@@ -1,5 +1,6 @@
 package ec.gob.metrodequito.controlacceso.infrastructure.databases.entities;
 
+import ec.gob.metrodequito.tarjetaoperacional.infraestructure.persistence.entities.OperationStaffEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,4 +31,7 @@ public class Departments {
 
     @OneToMany(mappedBy = "department")
     private List<People> people;
+
+    @OneToMany(mappedBy = "department")
+    private List<OperationStaffEntity> operationsStaff;
 }

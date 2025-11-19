@@ -1,13 +1,13 @@
-package ec.gob.metrodequito.controlacceso;
+package ec.gob.metrodequito;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-@EnableJpaRepositories
+@SpringBootApplication(scanBasePackages = "ec.gob.metrodequito")
+@EnableJpaRepositories(basePackages = "ec.gob.metrodequito")
 @EnableJpaAuditing
-@SpringBootApplication
 public class ControlaccesoApplication {
 
 	public static void main(String[] args) {
