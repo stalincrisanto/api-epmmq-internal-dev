@@ -5,24 +5,22 @@ import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class CardAssignmentHistory {
     private Long id;
     private String cardCode;
-    private String observation;
+    private String reason;
     private CardAssignmentStatus status;
     private LocalDateTime activationDate;
     private LocalDateTime deactivationDate;
     private LocalDateTime expirationDate;
     private Long activatedById;
     private Long operationStaffId;
-    private LocalDateTime createdAt;
-    private Boolean isActive;
-    private LocalDateTime updatedAt;
 }

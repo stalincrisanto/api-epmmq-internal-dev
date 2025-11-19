@@ -19,8 +19,8 @@ public class CardAssignmentHistoryEntity extends AuditableEntity {
     private Long id;
     @Column(name = "card_code", nullable = false)
     private String cardCode;
-    @Column
-    private String observation;
+    @Column(nullable = false)
+    private String reason;
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 30)
     private CardAssignmentStatus status;

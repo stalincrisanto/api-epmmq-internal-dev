@@ -1,12 +1,13 @@
 package ec.gob.metrodequito.tarjetaoperacional.domain.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class OperationStaff {
     private Long id;
     private String name;
@@ -16,7 +17,4 @@ public class OperationStaff {
     private String phoneNumber;
     private Long departmentId;
     private Long institutionalPositionId;
-    private LocalDateTime createdAt;
-    private Boolean isActive;
-    private LocalDateTime updatedAt;
 }
