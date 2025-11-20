@@ -29,7 +29,6 @@ public class OperationStaffAdapter implements OperationStaffPort {
     @Override
     public OperationStaff save(OperationStaff operationStaff) {
         OperationStaffEntity entity = this.mapper.toEntity(operationStaff);
-        System.out.println("ENTIDAD------------------>" + entity);
         return mapper.toDomain(repositoryOperationStaff.save(entity));
     }
 }

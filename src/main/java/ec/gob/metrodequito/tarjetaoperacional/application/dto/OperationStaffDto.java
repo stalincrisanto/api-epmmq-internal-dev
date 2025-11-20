@@ -10,4 +10,11 @@ public class OperationStaffDto {
     private String documentNumber;
     private String email;
     private String phoneNumber;
+    private DepartmentDto department;
+
+    @Data
+    public static class DepartmentDto {
+        private Long id;
+        private String name;
+    }
 }

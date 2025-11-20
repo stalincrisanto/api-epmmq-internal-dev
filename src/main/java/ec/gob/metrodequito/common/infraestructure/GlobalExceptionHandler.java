@@ -1,9 +1,8 @@
-package ec.gob.metrodequito.tarjetaoperacional.infraestructure;
+package ec.gob.metrodequito.common.infraestructure;
 
 import ec.gob.metrodequito.common.application.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 

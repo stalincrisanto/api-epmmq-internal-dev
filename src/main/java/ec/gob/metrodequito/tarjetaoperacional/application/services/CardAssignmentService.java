@@ -46,7 +46,7 @@ public class CardAssignmentService implements CardAssignmentUseCase {
         return CardAssignmentResponse.builder()
                 .isSuccessfully(true)
                 .cardAssignationHistoryId(cardAssignmentHistory.getId())
-                .operationStaffId(cardAssignmentHistory.getId())
+                .operationStaffId(staff.getId())
                 .build();
     }
 
@@ -66,8 +66,6 @@ public class CardAssignmentService implements CardAssignmentUseCase {
                 throw new DuplicateStaffException(
                         "Ya existe una persona con documento: " + documentNumber);
             }*/
-        System.out.println("---------------------->DATOS DEL REQUEST: " + staffDto.getDepartmentId());
-        System.out.println("---------------------->DATOS DEL REQUEST: " + staffDto.getInstitutionalPositionId());
         var staff = OperationStaff.builder()
                 .name(staffDto.getName())
                 .lastName(staffDto.getLastName())

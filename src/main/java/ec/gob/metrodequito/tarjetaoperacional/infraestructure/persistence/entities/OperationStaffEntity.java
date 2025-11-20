@@ -35,6 +35,6 @@ public class OperationStaffEntity extends AuditableEntity {
     @JoinColumn(name = "institutional_position_id")
     private InstitucionalPosition institucionalPosition;
 
-    @OneToMany(mappedBy = "operationsStaff")
+    @OneToMany(mappedBy = "operationsStaff", cascade = CascadeType.PERSIST)
     private List<CardAssignmentHistoryEntity> cardAssignmentHistory;
 }
