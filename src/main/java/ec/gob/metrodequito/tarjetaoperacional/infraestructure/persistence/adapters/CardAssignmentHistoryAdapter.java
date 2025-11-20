@@ -13,8 +13,8 @@ import org.springframework.stereotype.Repository;
 @RequiredArgsConstructor
 public class CardAssignmentHistoryAdapter implements CardAssignmentHistoryPort {
 
-    private CardAssignmentHistoryRepository repository;
-    private PersistenceCardAssignmentHistoryMapper mapper;
+    private final CardAssignmentHistoryRepository repository;
+    private final PersistenceCardAssignmentHistoryMapper mapper;
 
     @Override
     public CardAssignmentHistory save(CardAssignmentHistory cardAssignmentHistory) {

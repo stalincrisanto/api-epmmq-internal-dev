@@ -43,22 +43,20 @@ public class CardAssignmentService implements CardAssignmentUseCase {
 
         CardAssignmentHistory cardAssignmentHistory = createAssignmentHistory(request, staff.getId());
 
-        this.cardAssignmentHistoryPort.save(cardAssignmentHistory);
-
         return CardAssignmentResponse.builder()
                 .isSuccessfully(true)
                 .cardAssignationHistoryId(cardAssignmentHistory.getId())
-                .operationStaffId(staff.getId())
+                .operationStaffId(cardAssignmentHistory.getId())
                 .build();
     }
 
     private OperationStaff determineAndHandleStaff (CardAssignmentRequest request) {
         String documentNumber = request.getDocumentNumber();
-        if(request.getOperationStaffDto() == null){
+        if(request.getStaff() == null){
             return this.operationStaffPort.findByDocumentNumber(documentNumber)
                     .orElseThrow(() -> new RuntimeException("error"));
         } else {
-            return createNewOperationStaff(request.getOperationStaffDto(), documentNumber);
+            return createNewOperationStaff(request.getStaff(), documentNumber);
         }
     }
 
@@ -68,27 +66,33 @@ public class CardAssignmentService implements CardAssignmentUseCase {
                 throw new DuplicateStaffException(
                         "Ya existe una persona con documento: " + documentNumber);
             }*/
+        System.out.println("---------------------->DATOS DEL REQUEST: " + staffDto.getDepartmentId());
+        System.out.println("---------------------->DATOS DEL REQUEST: " + staffDto.getInstitutionalPositionId());
         var staff = OperationStaff.builder()
                 .name(staffDto.getName())
                 .lastName(staffDto.getLastName())
                 .email(staffDto.getEmail())
                 .documentNumber(documentNumber)
+                .phoneNumber(staffDto.getPhoneNumber())
                 .departmentId(staffDto.getDepartmentId())
                 .institutionalPositionId(staffDto.getInstitutionalPositionId())
                 .build();
+
         return this.operationStaffPort.save(staff);
     }
 
     private CardAssignmentHistory  createAssignmentHistory (CardAssignmentRequest request, Long operationStaffId) {
-        CreateCardAssignmentHistoryDto cardAssignmentHistory = request.getCardAssignmentHistoryDto();
+        CreateCardAssignmentHistoryDto cardAssignmentHistory = request.getAssignment();
 
-        return CardAssignmentHistory.builder()
+        var assignment = CardAssignmentHistory.builder()
                 .cardCode(cardAssignmentHistory.getCardCode())
                 .reason(cardAssignmentHistory.getReason())
                 .status(CardAssignmentStatus.ACTIVATED)
                 .activationDate(LocalDateTime.now())
+                .expirationDate(cardAssignmentHistory.getExpirationDate())
                 .activatedById(cardAssignmentHistory.getActivatedById())
                 .operationStaffId(operationStaffId)
                 .build();
+        return this.cardAssignmentHistoryPort.save(assignment);
     }
 }

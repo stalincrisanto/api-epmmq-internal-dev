@@ -5,11 +5,10 @@ import ec.gob.metrodequito.tarjetaoperacional.application.dto.request.CardAssign
 import ec.gob.metrodequito.tarjetaoperacional.application.dto.response.CardAssignmentResponse;
 import ec.gob.metrodequito.tarjetaoperacional.application.dto.response.OperationStaffResponse;
 import ec.gob.metrodequito.tarjetaoperacional.application.services.CardAssignmentService;
+10import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/assignment-card")

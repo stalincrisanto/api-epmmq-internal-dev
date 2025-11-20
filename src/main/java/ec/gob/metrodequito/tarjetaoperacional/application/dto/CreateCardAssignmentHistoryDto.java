@@ -5,10 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.Future;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import jakarta.validation.constraints.*;
 import java.time.LocalDateTime;
 
 @Data
@@ -26,6 +23,4 @@ public class CreateCardAssignmentHistoryDto {
     private LocalDateTime expirationDate;
     @NotNull(message = "El id del usuario que activa la tarjeta no puede ser nula")
     private Long activatedById;
-    @NotNull(message = "El id del usuario asignado a la tarjeta no puede ser nula")
-    private Long operationStaffId;
 }
