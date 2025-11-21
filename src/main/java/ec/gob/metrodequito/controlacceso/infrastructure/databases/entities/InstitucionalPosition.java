@@ -33,6 +33,6 @@ public class InstitucionalPosition {
     @OneToMany(mappedBy = "position")
     private List<People> people;
 
-    @OneToMany(mappedBy = "institucionalPosition")
+    @OneToMany(mappedBy = "institutionalPosition")
     private List<OperationStaffEntity> operationsStaff;
 }

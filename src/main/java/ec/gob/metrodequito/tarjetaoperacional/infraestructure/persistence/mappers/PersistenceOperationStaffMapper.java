@@ -11,32 +11,32 @@ import org.mapstruct.Named;
 @Mapper(componentModel = "spring")
 public interface PersistenceOperationStaffMapper {
 
-    @Mapping(source = "department.id", target = "departmentId")
-    @Mapping(source = "institucionalPosition.id", target = "institutionalPositionId")
+//    @Mapping(source = "department.id", target = "departmentId")
+//    @Mapping(source = "institucionalPosition.id", target = "institutionalPositionId")
     OperationStaff toDomain(OperationStaffEntity entity);
 
-    @Mapping(target = "department",
-            source = "departmentId",
-            qualifiedByName = "departmentFromId")
-    @Mapping(target = "institucionalPosition",
-            source = "institutionalPositionId",
-            qualifiedByName = "positionFromId")
+//    @Mapping(target = "department",
+//            source = "departmentId",
+//            qualifiedByName = "departmentFromId")
+//    @Mapping(target = "institucionalPosition",
+//            source = "institutionalPositionId",
+//            qualifiedByName = "positionFromId")
     OperationStaffEntity toEntity(OperationStaff domain);
 
-    @Named("departmentFromId")
-    default Departments departmentFromId(Integer id) {
-        if (id == null) return null;
-        Departments d = new Departments();
-        d.setId(id);
-        return d;
-    }
-
-    @Named("positionFromId")
-    default InstitucionalPosition positionFromId(Integer id) {
-        if (id == null) return null;
-        InstitucionalPosition p = new InstitucionalPosition();
-        p.setId(id);
-        return p;
-    }
+//    @Named("departmentFromId")
+//    default Departments departmentFromId(Integer id) {
+//        if (id == null) return null;
+//        Departments d = new Departments();
+//        d.setId(id);
+//        return d;
+//    }
+//
+//    @Named("positionFromId")
+//    default InstitucionalPosition positionFromId(Integer id) {
+//        if (id == null) return null;
+//        InstitucionalPosition p = new InstitucionalPosition();
+//        p.setId(id);
+//        return p;
+//    }
 }
 

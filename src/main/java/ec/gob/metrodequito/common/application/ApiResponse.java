@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Builder
@@ -15,6 +16,7 @@ public class ApiResponse <T> {
     private boolean success;
     private String message;
     private T data;
+    private List<String> errors;
 
     public static <T> ApiResponse<T> success (T data, String message){
         return ApiResponse.<T>builder()
@@ -29,6 +31,15 @@ public class ApiResponse <T> {
                 .success(false)
                 .message(message)
                 .data(null)
+                .build();
+    }
+
+    public static <T> ApiResponse<T> error(String message, List<String> errors) {
+        return ApiResponse.<T>builder()
+                .success(false)
+                .message(message)
+                .data(null)
+                .errors(errors)
                 .build();
     }
 }

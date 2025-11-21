@@ -33,7 +33,7 @@ public class OperationStaffEntity extends AuditableEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "institutional_position_id")
-    private InstitucionalPosition institucionalPosition;
+    private InstitucionalPosition institutionalPosition;
 
     @OneToMany(mappedBy = "operationsStaff", cascade = CascadeType.PERSIST)
     private List<CardAssignmentHistoryEntity> cardAssignmentHistory;

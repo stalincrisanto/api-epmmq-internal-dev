@@ -18,7 +18,8 @@ public class OperationStaffAdapter implements OperationStaffPort {
 
     @Override
     public Optional<OperationStaff> findByDocumentNumber(String documentNumber) {
-        return repositoryOperationStaff.findByDocumentNumber(documentNumber).map(this.mapper::toDomain);
+        return repositoryOperationStaff.findByDocumentNumber(documentNumber)
+                .map(this.mapper::toDomain);
     }
 
     @Override

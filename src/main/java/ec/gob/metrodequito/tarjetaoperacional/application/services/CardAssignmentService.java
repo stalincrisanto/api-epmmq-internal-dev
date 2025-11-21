@@ -1,5 +1,9 @@
 package ec.gob.metrodequito.tarjetaoperacional.application.services;
 
+import ec.gob.metrodequito.controlacceso.domain.models.Department;
+import ec.gob.metrodequito.controlacceso.domain.models.InstitutionalPosition;
+import ec.gob.metrodequito.controlacceso.domain.services.DepartmentService;
+import ec.gob.metrodequito.controlacceso.domain.services.InstitutionalPositionService;
 import ec.gob.metrodequito.tarjetaoperacional.application.dto.CreateCardAssignmentHistoryDto;
 import ec.gob.metrodequito.tarjetaoperacional.application.dto.CreateOperationStaffDto;
 import ec.gob.metrodequito.tarjetaoperacional.application.dto.request.CardAssignmentRequest;
@@ -16,6 +20,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @AllArgsConstructor
 @Service
@@ -23,6 +28,9 @@ public class CardAssignmentService implements CardAssignmentUseCase {
     private final OperationStaffPort operationStaffPort;
     private final CardAssignmentHistoryPort cardAssignmentHistoryPort;
     private final WebOperationStaffMapper mapper;
+
+    private final DepartmentService departmentPort;
+    private final InstitutionalPositionService positionPort;
 
     @Override
     public OperationStaffResponse verifiedOperationStaffExists(String documentNumber) {
@@ -61,19 +69,16 @@ public class CardAssignmentService implements CardAssignmentUseCase {
     }
 
     private OperationStaff createNewOperationStaff (CreateOperationStaffDto staffDto, String documentNumber){
-        // Validar que no exista persona con mismo documento
-            /*if (operationStaffPort.existsByDocumentNumber(documentNumber)) {
-                throw new DuplicateStaffException(
-                        "Ya existe una persona con documento: " + documentNumber);
-            }*/
+        Optional<Department> department = this.departmentPort.getById(staffDto.getDepartmentId());
+        Optional<InstitutionalPosition> position = this.positionPort.getById(staffDto.getInstitutionalPositionId());
         var staff = OperationStaff.builder()
                 .name(staffDto.getName())
                 .lastName(staffDto.getLastName())
                 .email(staffDto.getEmail())
                 .documentNumber(documentNumber)
                 .phoneNumber(staffDto.getPhoneNumber())
-                .departmentId(staffDto.getDepartmentId())
-                .institutionalPositionId(staffDto.getInstitutionalPositionId())
+                .department(department.orElse(null))
+                .institutionalPosition(position.orElse(null))
                 .build();
 
         return this.operationStaffPort.save(staff);

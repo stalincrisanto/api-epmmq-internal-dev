@@ -1,5 +1,7 @@
 package ec.gob.metrodequito.tarjetaoperacional.domain.model;
 
+import ec.gob.metrodequito.controlacceso.domain.models.Department;
+import ec.gob.metrodequito.controlacceso.domain.models.InstitutionalPosition;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -15,6 +17,6 @@ public class OperationStaff {
     private String email;
     private String documentNumber;
     private String phoneNumber;
-    private Long departmentId;
-    private Long institutionalPositionId;
+    private Department department;
+    private InstitutionalPosition institutionalPosition;
 }
