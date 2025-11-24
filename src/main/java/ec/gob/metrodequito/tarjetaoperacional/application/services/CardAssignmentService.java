@@ -94,7 +94,7 @@ public class CardAssignmentService implements CardAssignmentUseCase {
                 .activationDate(LocalDateTime.now())
                 .expirationDate(cardAssignmentHistory.getExpirationDate())
                 .activatedById(cardAssignmentHistory.getActivatedById())
-                .operationStaffId(operationStaffId)
+                //.operationStaffId(operationStaffId)
                 .build();
         return this.cardAssignmentHistoryPort.save(assignment);
     }

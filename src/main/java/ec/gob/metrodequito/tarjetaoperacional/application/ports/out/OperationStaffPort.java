@@ -6,6 +6,5 @@ import java.util.Optional;
 
 public interface OperationStaffPort {
     Optional<OperationStaff> findByDocumentNumber (String documentNumber);
-    Optional<OperationStaff> findById (Long id);
     OperationStaff save (OperationStaff operationStaff);
 }

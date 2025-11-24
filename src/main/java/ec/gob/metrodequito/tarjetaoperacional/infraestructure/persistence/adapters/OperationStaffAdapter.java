@@ -22,10 +22,10 @@ public class OperationStaffAdapter implements OperationStaffPort {
                 .map(this.mapper::toDomain);
     }
 
-    @Override
-    public Optional<OperationStaff> findById(Long id) {
-        return repositoryOperationStaff.findById(id).map(this.mapper::toDomain);
-    }
+//    @Override
+//    public Optional<OperationStaff> findById(Long id) {
+//        return repositoryOperationStaff.findById(id).map(this.mapper::toDomain);
+//    }
 
     @Override
     public OperationStaff save(OperationStaff operationStaff) {

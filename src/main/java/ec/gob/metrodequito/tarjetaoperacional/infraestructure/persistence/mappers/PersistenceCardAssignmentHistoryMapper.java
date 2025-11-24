@@ -13,27 +13,27 @@ import org.mapstruct.Named;
 public interface PersistenceCardAssignmentHistoryMapper {
     CardAssignmentHistory toDomain(CardAssignmentHistoryEntity entity);
 
-    @Mapping(target = "activatedBy",
-            source = "activatedById",
-            qualifiedByName = "userFromId")
-    @Mapping(target = "operationsStaff",
-            source = "operationStaffId",
-            qualifiedByName = "operationStaffFromId")
+//    @Mapping(target = "activatedBy",
+//            source = "activatedById",
+//            qualifiedByName = "userFromId")
+//    @Mapping(target = "operationsStaff",
+//            source = "operationStaffId",
+//            qualifiedByName = "operationStaffFromId")
     CardAssignmentHistoryEntity toEntity(CardAssignmentHistory domain);
 
-    @Named("userFromId")
-    default Users userFromId(String id) {
-        if (id == null) return null;
-        Users u = new Users();
-        u.setId(id);
-        return u;
-    }
-
-    @Named("operationStaffFromId")
-    default OperationStaffEntity operationStaffFromId(Long id) {
-        if (id == null) return null;
-        OperationStaffEntity os = new OperationStaffEntity();
-        os.setId(id);
-        return os;
-    }
+//    @Named("userFromId")
+//    default Users userFromId(String id) {
+//        if (id == null) return null;
+//        Users u = new Users();
+//        u.setId(id);
+//        return u;
+//    }
+//
+//    @Named("operationStaffFromId")
+//    default OperationStaffEntity operationStaffFromId(Long id) {
+//        if (id == null) return null;
+//        OperationStaffEntity os = new OperationStaffEntity();
+//        os.setId(id);
+//        return os;
+//    }
 }

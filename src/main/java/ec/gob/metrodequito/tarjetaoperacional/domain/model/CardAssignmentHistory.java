@@ -22,5 +22,9 @@ public class CardAssignmentHistory {
     private LocalDateTime deactivationDate;
     private LocalDateTime expirationDate;
     private Long activatedById;
-    private Long operationStaffId;
+    private OperationStaff operationStaff;
+
+    public boolean isActivated(){
+        return status == CardAssignmentStatus.ACTIVATED;
+    }
 }
