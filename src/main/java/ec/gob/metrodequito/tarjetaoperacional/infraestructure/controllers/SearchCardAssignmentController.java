@@ -7,6 +7,8 @@ import ec.gob.metrodequito.tarjetaoperacional.application.mapper.WebSearchCardAs
 import ec.gob.metrodequito.tarjetaoperacional.application.ports.in.SearchCardAssignmentUseCase;
 import ec.gob.metrodequito.tarjetaoperacional.domain.model.SearchCriteria;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,10 +19,11 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/assignment-card")
+@RequiredArgsConstructor
 public class SearchCardAssignmentController {
 
-    private SearchCardAssignmentUseCase searchCardAssignmentUseCase;
-    private WebSearchCardAssignmentMapper mapper;
+    private final SearchCardAssignmentUseCase searchCardAssignmentUseCase;
+    private final WebSearchCardAssignmentMapper mapper;
 
     @PostMapping("/search-active")
     public ResponseEntity<ApiResponse<SearchCardAssignmentReponse>> searchActiveAssignmentHistory(
@@ -33,6 +36,8 @@ public class SearchCardAssignmentController {
                     .build();
 
             Optional<SearchCardAssignmentReponse> result = searchCardAssignmentUseCase.searchCardAssignment(criteria).map(mapper::toResponse);
+
+            System.out.println("CONTROLADOR------------------->" + result.get().getDepartmentName());
 
             return result.map(searchCardAssignmentReponse -> ResponseEntity.ok(ApiResponse.success(searchCardAssignmentReponse, "Encontrado exitosamente"))).orElseGet(() -> ResponseEntity.ok(ApiResponse.success(null, "No se ha encontrado")));
         } catch (IllegalArgumentException e) {

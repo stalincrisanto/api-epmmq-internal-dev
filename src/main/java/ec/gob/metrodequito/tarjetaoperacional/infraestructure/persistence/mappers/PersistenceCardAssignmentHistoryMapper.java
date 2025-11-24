@@ -1,5 +1,9 @@
 package ec.gob.metrodequito.tarjetaoperacional.infraestructure.persistence.mappers;
 
+import ec.gob.metrodequito.controlacceso.domain.models.Department;
+import ec.gob.metrodequito.controlacceso.domain.models.InstitutionalPosition;
+import ec.gob.metrodequito.controlacceso.infrastructure.databases.entities.Departments;
+import ec.gob.metrodequito.controlacceso.infrastructure.databases.entities.InstitucionalPosition;
 import ec.gob.metrodequito.controlacceso.infrastructure.databases.entities.Users;
 import ec.gob.metrodequito.tarjetaoperacional.domain.model.CardAssignmentHistory;
 import ec.gob.metrodequito.tarjetaoperacional.domain.model.OperationStaff;
@@ -11,29 +15,38 @@ import org.mapstruct.Named;
 
 @Mapper(componentModel = "spring")
 public interface PersistenceCardAssignmentHistoryMapper {
+
+    @Mapping(
+            target = "operationStaff",
+            expression = "java(mapOperationStaffToDomain(entity.getOperationsStaff()))"
+    )
     CardAssignmentHistory toDomain(CardAssignmentHistoryEntity entity);
 
-//    @Mapping(target = "activatedBy",
-//            source = "activatedById",
-//            qualifiedByName = "userFromId")
-//    @Mapping(target = "operationsStaff",
-//            source = "operationStaffId",
-//            qualifiedByName = "operationStaffFromId")
-    CardAssignmentHistoryEntity toEntity(CardAssignmentHistory domain);
+    Department toDomain(Departments entity);
 
-//    @Named("userFromId")
-//    default Users userFromId(String id) {
-//        if (id == null) return null;
-//        Users u = new Users();
-//        u.setId(id);
-//        return u;
-//    }
-//
-//    @Named("operationStaffFromId")
-//    default OperationStaffEntity operationStaffFromId(Long id) {
-//        if (id == null) return null;
-//        OperationStaffEntity os = new OperationStaffEntity();
-//        os.setId(id);
-//        return os;
-//    }
+    InstitutionalPosition toDomain(InstitucionalPosition entity);
+
+    default OperationStaff mapOperationStaffToDomain(OperationStaffEntity entity) {
+        if (entity == null) return null;
+
+        OperationStaff domain = new OperationStaff();
+        domain.setId(entity.getId());
+        domain.setName(entity.getName());
+        domain.setLastName(entity.getLastName());
+        domain.setEmail(entity.getEmail());
+        domain.setDocumentNumber(entity.getDocumentNumber());
+        domain.setPhoneNumber(entity.getPhoneNumber());
+
+        if (entity.getDepartment() != null) {
+            domain.setDepartment(toDomain(entity.getDepartment()));
+        }
+
+        if (entity.getInstitutionalPosition() != null) {
+            domain.setInstitutionalPosition(toDomain(entity.getInstitutionalPosition()));
+        }
+
+        return domain;
+    }
+
+    CardAssignmentHistoryEntity toEntity(CardAssignmentHistory domain);
 }

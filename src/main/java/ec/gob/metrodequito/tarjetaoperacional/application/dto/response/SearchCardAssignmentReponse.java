@@ -23,4 +23,6 @@ public class SearchCardAssignmentReponse {
     private String operationStaffLastName;
     private String operationStaffDocumentNumber;
     private String operationStaffEmail;
+    private String departmentName;
+    private String institutionalPositionName;
 }

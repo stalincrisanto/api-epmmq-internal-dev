@@ -9,6 +9,6 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface PersistenceInstitutionalPositionMapper {
     InstitutionalPosition toDomain(InstitucionalPosition entity);
-//    InstitucionalPosition toEntity(InstitucionalPosition domain);
+    InstitucionalPosition toEntity(InstitucionalPosition domain);
 }
 
