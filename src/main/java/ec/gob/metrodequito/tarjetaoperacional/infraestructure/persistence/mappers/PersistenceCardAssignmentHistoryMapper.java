@@ -9,28 +9,21 @@ import ec.gob.metrodequito.tarjetaoperacional.domain.model.CardAssignmentHistory
 import ec.gob.metrodequito.tarjetaoperacional.domain.model.OperationStaff;
 import ec.gob.metrodequito.tarjetaoperacional.infraestructure.persistence.entities.CardAssignmentHistoryEntity;
 import ec.gob.metrodequito.tarjetaoperacional.infraestructure.persistence.entities.OperationStaffEntity;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Named;
-import org.mapstruct.ReportingPolicy;
+import org.mapstruct.*;
 
 @Mapper(
     componentModel = "spring",
     unmappedTargetPolicy = ReportingPolicy.IGNORE
 )
 public interface PersistenceCardAssignmentHistoryMapper {
-
+//    Entidad a dominio
     @Mapping(
             target = "operationStaff",
             expression = "java(mapOperationStaffToDomain(entity.getOperationsStaff()))"
     )
-//    @Mapping(target = "activatedBy", ignore = true)
     CardAssignmentHistory toDomain(CardAssignmentHistoryEntity entity);
-
     Department toDomain(Departments entity);
-
     InstitutionalPosition toDomain(InstitucionalPosition entity);
-
     default OperationStaff mapOperationStaffToDomain(OperationStaffEntity entity) {
         if (entity == null) return null;
 
@@ -53,5 +46,23 @@ public interface PersistenceCardAssignmentHistoryMapper {
         return domain;
     }
 
+//    Dominio a entidad
+    @Mapping(target = "operationsStaff", expression = "java(mapOperationStaffToEntity(domain.getOperationStaff()))")
+    @Mapping(target = "activatedBy", ignore = true)
     CardAssignmentHistoryEntity toEntity(CardAssignmentHistory domain);
+    default OperationStaffEntity mapOperationStaffToEntity(OperationStaff domain) {
+        if (domain == null) return null;
+        OperationStaffEntity entity = new OperationStaffEntity();
+        entity.setId(domain.getId());
+        return entity;
+    }
+
+    @AfterMapping
+    default void setActivatedById(CardAssignmentHistory domain, @MappingTarget CardAssignmentHistoryEntity entity) {
+        if (domain.getActivatedById() != null) {
+            Users user = new Users();
+            user.setId(String.valueOf(domain.getActivatedById()));
+            entity.setActivatedBy(user);
+        }
+    }
 }

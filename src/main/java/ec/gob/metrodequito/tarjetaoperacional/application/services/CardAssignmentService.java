@@ -4,6 +4,8 @@ import ec.gob.metrodequito.controlacceso.domain.models.Department;
 import ec.gob.metrodequito.controlacceso.domain.models.InstitutionalPosition;
 import ec.gob.metrodequito.controlacceso.domain.services.DepartmentService;
 import ec.gob.metrodequito.controlacceso.domain.services.InstitutionalPositionService;
+import ec.gob.metrodequito.sistemacentralrecaudo.application.dto.CardActivationRequest;
+import ec.gob.metrodequito.sistemacentralrecaudo.application.ports.out.CardActivationPort;
 import ec.gob.metrodequito.tarjetaoperacional.application.dto.CreateCardAssignmentHistoryDto;
 import ec.gob.metrodequito.tarjetaoperacional.application.dto.CreateOperationStaffDto;
 import ec.gob.metrodequito.tarjetaoperacional.application.dto.request.CardAssignmentRequest;
@@ -32,6 +34,8 @@ public class CardAssignmentService implements CardAssignmentUseCase {
     private final DepartmentService departmentPort;
     private final InstitutionalPositionService positionPort;
 
+    private final CardActivationPort cardActivationPort;
+
     @Override
     public OperationStaffResponse verifiedOperationStaffExists(String documentNumber) {
         return this.operationStaffPort.findByDocumentNumber(documentNumber)
@@ -51,6 +55,10 @@ public class CardAssignmentService implements CardAssignmentUseCase {
 
         CardAssignmentHistory cardAssignmentHistory = createAssignmentHistory(request, staff.getId());
 
+        CardActivationRequest cardActivationRequest = createCardActivationInfo(staff, cardAssignmentHistory);
+
+        cardActivationPort.activateCard(cardActivationRequest);
+
         return CardAssignmentResponse.builder()
                 .isSuccessfully(true)
                 .cardAssignationHistoryId(cardAssignmentHistory.getId())
@@ -58,9 +66,9 @@ public class CardAssignmentService implements CardAssignmentUseCase {
                 .build();
     }
 
-    private OperationStaff determineAndHandleStaff (CardAssignmentRequest request) {
+    private OperationStaff determineAndHandleStaff(CardAssignmentRequest request) {
         String documentNumber = request.getDocumentNumber();
-        if(request.getStaff() == null){
+        if (request.getStaff() == null) {
             return this.operationStaffPort.findByDocumentNumber(documentNumber)
                     .orElseThrow(() -> new RuntimeException("error"));
         } else {
@@ -68,7 +76,7 @@ public class CardAssignmentService implements CardAssignmentUseCase {
         }
     }
 
-    private OperationStaff createNewOperationStaff (CreateOperationStaffDto staffDto, String documentNumber){
+    private OperationStaff createNewOperationStaff(CreateOperationStaffDto staffDto, String documentNumber) {
         Optional<Department> department = this.departmentPort.getById(staffDto.getDepartmentId());
         Optional<InstitutionalPosition> position = this.positionPort.getById(staffDto.getInstitutionalPositionId());
         var staff = OperationStaff.builder()
@@ -84,9 +92,10 @@ public class CardAssignmentService implements CardAssignmentUseCase {
         return this.operationStaffPort.save(staff);
     }
 
-    private CardAssignmentHistory  createAssignmentHistory (CardAssignmentRequest request, Long operationStaffId) {
+    private CardAssignmentHistory createAssignmentHistory(CardAssignmentRequest request, Long operationStaffId) {
         CreateCardAssignmentHistoryDto cardAssignmentHistory = request.getAssignment();
-
+        Optional<OperationStaff> operationStaff = operationStaffPort.getById(operationStaffId);
+        System.out.println("operationStaff-------------->" + operationStaff.orElse(null));
         var assignment = CardAssignmentHistory.builder()
                 .cardCode(cardAssignmentHistory.getCardCode())
                 .reason(cardAssignmentHistory.getReason())
@@ -94,8 +103,20 @@ public class CardAssignmentService implements CardAssignmentUseCase {
                 .activationDate(LocalDateTime.now())
                 .expirationDate(cardAssignmentHistory.getExpirationDate())
                 .activatedById(cardAssignmentHistory.getActivatedById())
-                //.operationStaffId(operationStaffId)
+                .operationStaff(operationStaff.orElse(null))
                 .build();
+        System.out.println("LUEGO DE MAPEAR-------------->" + assignment);
+
         return this.cardAssignmentHistoryPort.save(assignment);
+    }
+
+    private CardActivationRequest createCardActivationInfo(OperationStaff operationStaff, CardAssignmentHistory cardAssignmentHistory) {
+        return CardActivationRequest.builder()
+                .name(operationStaff.getName())
+                .lastName(operationStaff.getLastName())
+                .codActivation(cardAssignmentHistory.getCardCode())
+                .documentId(operationStaff.getDocumentNumber())
+                .expirationDate(String.valueOf(cardAssignmentHistory.getExpirationDate()))
+                .build();
     }
 }

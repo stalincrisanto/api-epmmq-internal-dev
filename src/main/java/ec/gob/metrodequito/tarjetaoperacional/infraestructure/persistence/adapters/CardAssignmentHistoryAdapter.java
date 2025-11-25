@@ -22,6 +22,7 @@ public class CardAssignmentHistoryAdapter implements CardAssignmentHistoryPort {
     @Override
     public CardAssignmentHistory save(CardAssignmentHistory cardAssignmentHistory) {
         CardAssignmentHistoryEntity entity = this.mapper.toEntity(cardAssignmentHistory);
+        System.out.println("YA EN EL REPOSITORIO=========>" + entity.getOperationsStaff().getId());
         return this.mapper.toDomain(repository.save(entity));
     }
 

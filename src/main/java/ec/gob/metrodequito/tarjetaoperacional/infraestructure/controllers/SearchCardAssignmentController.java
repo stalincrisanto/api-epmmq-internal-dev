@@ -36,9 +36,6 @@ public class SearchCardAssignmentController {
                     .build();
 
             Optional<SearchCardAssignmentReponse> result = searchCardAssignmentUseCase.searchCardAssignment(criteria).map(mapper::toResponse);
-
-            System.out.println("CONTROLADOR------------------->" + result.get().getDepartmentName());
-
             return result.map(searchCardAssignmentReponse -> ResponseEntity.ok(ApiResponse.success(searchCardAssignmentReponse, "Encontrado exitosamente"))).orElseGet(() -> ResponseEntity.ok(ApiResponse.success(null, "No se ha encontrado")));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();

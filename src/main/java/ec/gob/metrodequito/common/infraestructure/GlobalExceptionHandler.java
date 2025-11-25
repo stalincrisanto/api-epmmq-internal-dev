@@ -28,14 +28,14 @@ public class GlobalExceptionHandler {
                 .getFieldErrors()
                 .stream()
                 .map(error -> error.getField() + ": " + error.getDefaultMessage())
-                .collect(Collectors.toList());
+                .toList();
 
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .success(false)
                 .error(ErrorDetail.builder()
                         .code("VALIDATION_ERROR")
                         .message("Error de validación")
-                        .details(Map.of("validationErrors", String.join(", ", errors)))
+                        .details(Map.of("validationErrors", errors))
                         .timestamp(Instant.now().toString())
                         .path(getRequestPath(request))
                         .build())

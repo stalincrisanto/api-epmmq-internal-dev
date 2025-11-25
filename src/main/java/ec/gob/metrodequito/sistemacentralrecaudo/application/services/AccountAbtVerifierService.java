@@ -21,30 +21,6 @@ public class AccountAbtVerifierService implements AccountAbtVerifierPort {
     private final WebClient externalCardAssignmentClient;
 
     @Override
-//    public AccountAbtVerifier accountAbtVerifier(SearchType type, String value) {
-//        return externalCardAssignmentClient.get()
-//                .uri(uriBuilder -> uriBuilder
-//                        .path("api/v1/card-assignment")
-//                        .queryParam("type", type)
-//                        .queryParam("value", value)
-//                        .build()
-//                )
-//                .retrieve()
-//                .onStatus(HttpStatus::is4xxClientError, response ->
-//                        response.bodyToMono(String.class).flatMap(body ->
-//                                Mono.just(new AccountAbtVerifier(false, null, null, null))
-//                        )
-//                )
-//                .onStatus(HttpStatus::is5xxServerError, response ->
-//                        response.bodyToMono(String.class).flatMap(body ->
-//                                Mono.just(new AccountAbtVerifier(false, null, null, null))
-//                        )
-//                )
-//                .bodyToMono(JsonNode.class)
-//                .map(this::mapResponse)
-//                .block();
-//    }
-
     public AccountAbtVerifier accountAbtVerifier(SearchType type, String value) {
 
         return externalCardAssignmentClient.get()

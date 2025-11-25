@@ -16,7 +16,7 @@ import java.util.Map;
 public class ErrorDetail {
     private String code;
     private String message;
-    private Map<String, String> details;
+    private Map<String, Object> details;
     private String timestamp;
     private String path;
 }
