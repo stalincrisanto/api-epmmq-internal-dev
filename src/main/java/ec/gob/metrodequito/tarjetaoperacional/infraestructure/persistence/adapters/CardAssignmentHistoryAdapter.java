@@ -28,15 +28,12 @@ public class CardAssignmentHistoryAdapter implements CardAssignmentHistoryPort {
     @Override
     public Optional<CardAssignmentHistory> findActiveByCardCode(String cardCode) {
         Optional<CardAssignmentHistoryEntity> entity = repository.findByCardCodeAndStatus(cardCode, CardAssignmentStatus.ACTIVATED);
-        System.out.println("EN EL REPOSITORIO--------------->"+entity.get().getOperationsStaff().getDepartment().getName());
-
         return entity.map(this.mapper::toDomain);
     }
 
     @Override
     public Optional<CardAssignmentHistory> findActiveByDocumentNumber(String documentNumber) {
         Optional<CardAssignmentHistoryEntity> entity = repository.findByOperationStaffDocumentNumberAndStatus(documentNumber, CardAssignmentStatus.ACTIVATED);
-        System.out.println("EN EL REPOSITORIO--------------->"+entity.get().getOperationsStaff().getId());
         return entity.map(this.mapper::toDomain);
     }
 }

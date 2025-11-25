@@ -12,14 +12,19 @@ import ec.gob.metrodequito.tarjetaoperacional.infraestructure.persistence.entiti
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
+import org.mapstruct.ReportingPolicy;
 
-@Mapper(componentModel = "spring")
+@Mapper(
+    componentModel = "spring",
+    unmappedTargetPolicy = ReportingPolicy.IGNORE
+)
 public interface PersistenceCardAssignmentHistoryMapper {
 
     @Mapping(
             target = "operationStaff",
             expression = "java(mapOperationStaffToDomain(entity.getOperationsStaff()))"
     )
+//    @Mapping(target = "activatedBy", ignore = true)
     CardAssignmentHistory toDomain(CardAssignmentHistoryEntity entity);
 
     Department toDomain(Departments entity);

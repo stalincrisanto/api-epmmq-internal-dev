@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
 import java.util.Map;
 
 @Data
@@ -14,8 +13,10 @@ import java.util.Map;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ErrorResponse {
-    private Boolean success;
-    private ErrorDetail error;
+public class ErrorDetail {
+    private String code;
+    private String message;
+    private Map<String, String> details;
+    private String timestamp;
+    private String path;
 }
-
